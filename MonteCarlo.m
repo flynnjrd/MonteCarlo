@@ -1,17 +1,20 @@
 clear all; clc;
+format long
 % n= number of points to run in Monte Carlo (MC)
 % a sum of points inside the circle
 % x and y randomized values within the square/circle
-n=12000;
-a=0;
-x=rand(1,n);
-y=rand(1,n);
-%matrix to store 10 runs of the MC
-B = cell(1,10);
+n=750000000;
+b=5;
+x=double(rand(1,n));
+y=double(rand(1,n));
+%matrix to store b runs of the MC
+B = 1:b;
 
 %loop to run MC 10 times, take average of values
-for j = 1:1:10;   
+for j = 1:1:b;   
     %loop, increments for MC
+    %a placed here to reset a value for each iteration
+    a=0;
     for k=1:1:n;
                         
         if (x(k)^2)+(y(k)^2)<=1
@@ -21,17 +24,26 @@ for j = 1:1:10;
         end             
     end
      %pie=MC pi estimation
-      pie=4*a/n;
+      pie=double(4*a/n);
     %assign MC value to matrix
-    B(1,j) = pie
+    B(1,j) = pie;
 end
 
- S = sum(B)
- avg = S/10
- 
- %rounded values of "real" pi and averaged MC pi
-        piR= round(pi,2)
-        pieR= round(avg,2)
+%sum and avg all of the MC runs to get an avg MC pi
+S = sum(B);
+avg = S/b
+
+%rounded values of "real" pi and averaged MC pi
+piR= round(pi,4)
+pieR= round(avg,4)
+
+if pieR==piR
+    
+    disp('Yes! Its a match')
+else
+    disp('Nope')
+end
+
  
  
 
